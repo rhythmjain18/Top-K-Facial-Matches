@@ -10,14 +10,13 @@ This program uses a database of photos to perform a "facial search." The applica
 
 # A description of how this program works (i.e. its logic)
 
-It contains the following files and folders:
-Dataset
-LWF_Dataset
-uploads
-Database.py
-face_recog.py
-main.py
-testing.py
+### It contains the following files and folders:
+* LWF_Dataset
+* uploads
+* Database.py
+* face_recog.py
+* main.py
+* testing.py
 
 For easy understanding and increase the utility of classes, I have made separate functions for different pupose and uses.
 
@@ -35,43 +34,43 @@ Database Class
 I have made a separete database class called database.py . Here i have defined proper functions with their respective workings.
 Class dbase is the database class that contains following functions-
 
-    ->UseDB : Selects the database to be used for sql queries
+    * UseDB : Selects the database to be used for sql queries
 
-    ->CreateTable : Creates a table for Images. here i am using storing encodings of the images using a blob type table parameter
+    * CreateTable : Creates a table for Images. here i am using storing encodings of the images using a blob type table parameter
 
-    ->InsertBlob : This function inserts the encodings of an image to the table. Here encodings are first converted to bytes data type using ndarray.tobytes() function from numpy library.
+    * InsertBlob : This function inserts the encodings of an image to the table. Here encodings are first converted to bytes data type using ndarray.tobytes() function from numpy library.
 
-    ->RetrieveBlob : This function helps retrieve the encoding value for a particular index id.
+    * RetrieveBlob : This function helps retrieve the encoding value for a particular index id.
 
-    ->GetListOfAllBlobs : This function helps retrieve the encoding of all the images stored in the database to be used later for face matching algorithm.
+    * GetListOfAllBlobs : This function helps retrieve the encoding of all the images stored in the database to be used later for face matching algorithm.
 
-    ->RetrieveData : This function helps retrieve the data value for a particular index id.
+    * RetrieveData : This function helps retrieve the data value for a particular index id.
 
-    ->Inserting_Encodings_In_Table : This function inserts all the encodings the table from a given file.
+    * Inserting_Encodings_In_Table : This function inserts all the encodings the table from a given file.
 
 main.py
 This is our main flask-api file. This contains the functions such as:
-->add_face() : This endpoint contains a html form, where we have to provide input file as well as parameters such as name, location, version and date. This functions then extracts values and calls add_face() funtion defined in face_recg.py.
+    * add_face() : This endpoint contains a html form, where we have to provide input file as well as parameters such as name, location, version and date. This functions then extracts values and calls add_face() funtion defined in face_recg.py.
 
-    ->add_faces_in_bulk() : This endpoint contains a html form, where we have to provide input file . This functions then extracts values and calls add_faces_in_bulk() funtion defined in face_recg.py. Here zip file must be organised such that it contains folder of images by image name and then images inside those folder. For example, for eg, all images named Aaron_Eckhart must be in Aaron_Eckhart folder.
+    * add_faces_in_bulk() : This endpoint contains a html form, where we have to provide input file . This functions then extracts values and calls add_faces_in_bulk() funtion defined in face_recg.py. Here zip file must be organised such that it contains folder of images by image name and then images inside those folder. For example, for eg, all images named Aaron_Eckhart must be in Aaron_Eckhart folder.
 
-    ->search_faces() : This endpoint contains a html form, where we have to provide input file as well as parameters such as value of K in top k matchings and value of confidence between 0-100 percent.This functions then extracts values and calls search_faces() funtion defined in face_recg.py.
+    * search_faces() : This endpoint contains a html form, where we have to provide input file as well as parameters such as value of K in top k matchings and value of confidence between 0-100 percent.This functions then extracts values and calls search_faces() funtion defined in face_recg.py.
 
-    ->get_face_info() : This endpoint contains a html form, where we have to provide input parameters such as image id for which information needed to be extracted. This functions then extracts values and calls get_face_info() funtion defined in face_recg.py.
+    * get_face_info() : This endpoint contains a html form, where we have to provide input parameters such as image id for which information needed to be extracted. This functions then extracts values and calls get_face_info() funtion defined in face_recg.py.
 
-    ->success_add_face() : All other api-endpoints are redirected to the endpoints after succesfull query processing in order to display the result.
+    * success_add_face() : All other api-endpoints are redirected to the endpoints after succesfull query processing in order to display the result.
 
 face_recog.py
 This file contains most of the main functions used in main.py:
 
-    ->add_face() : It takes 5 values as input(filename,name,version,date,location).This functions then extracts values and  extracts encoding of the image and then convert it to bytes data and insert the respective values in the table.
+    * add_face() : It takes 5 values as input(filename,name,version,date,location).This functions then extracts values and  extracts encoding of the image and then convert it to bytes data and insert the respective values in the table.
 
-    ->add_faces_in_bulk() : It takes path of zip as input.This functions then extracts the zip file in uploads folder and then using os library iterate over all the folders, read the images, extracts encoding of the image and then convert it to bytes data and insert the respective values in the table.
+    * add_faces_in_bulk() : It takes path of zip as input.This functions then extracts the zip file in uploads folder and then using os library iterate over all the folders, read the images, extracts encoding of the image and then convert it to bytes data and insert the respective values in the table.
 
-    ->search_faces() : It takes path of image as input along with K (topK matches) and Confidence . This functions then read the image, extracts encoding of the image and then using face_recognition library functions , compare them with all encodings in the database.
+    * search_faces() : It takes path of image as input along with K (topK matches) and Confidence . This functions then read the image, extracts encoding of the image and then using face_recognition library functions , compare them with all encodings in the database.
     Then among the matches, we picked up top k matches and returned them.
 
-    ->get_face_info() : It takes id of image as input. This functions then returns the corresponding values using RetreiveData function in database.py
+    * get_face_info() : It takes id of image as input. This functions then returns the corresponding values using RetreiveData function in database.py
 
 Testing.py
 This function contains testing of each of the functions used in main.py. We are using unittest library for the same purpose. We are using post request to test the output of the function if it is a success or not.
